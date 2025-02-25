@@ -24,7 +24,7 @@ title varchar(150) NOT NULL,
 description varchar(500) NOT NULL,
 mission_date date NOT NULL, 
 association_id int NOT NULL,
-FOREIGN KEY (association_id) REFERENCES users(id)
+FOREIGN KEY (association_id) REFERENCES users(id) 
 );
 
 INSERT INTO missions (title, description, mission_date, association_id) VALUES
@@ -38,7 +38,7 @@ id int AUTO_INCREMENT PRIMARY KEY,
 status enum ('pending', 'accepted', 'rejected') DEFAULT 'pending',
 mission_id int NOT NULL,
 volunteer_id int NOT NULL,
-FOREIGN KEY (mission_id) REFERENCES missions(id),
+FOREIGN KEY (mission_id) REFERENCES missions(id) ON DELETE CASCADE,
 FOREIGN KEY (volunteer_id) REFERENCES users(id)
 );
 
