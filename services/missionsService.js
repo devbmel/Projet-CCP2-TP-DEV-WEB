@@ -25,6 +25,16 @@ class MissionsService {
     }
   }
 
+  async getApplicationByMissionId(id) {
+    try {
+      return await this.missionsRepository.getApplicationByMissionId(id);
+    } catch (error) {
+      const message = `Error in getApplicationByMissionId service: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    }
+  }
+
   async createMission(title, description, mission_date, association_id) {
     try {
       return await this.missionsRepository.createMission(

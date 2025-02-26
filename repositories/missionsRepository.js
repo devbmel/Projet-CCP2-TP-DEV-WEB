@@ -42,6 +42,23 @@ class MissionsRepository {
     }
   }
 
+  async getApplicationByMissionId(id) {
+    let connexion;
+    try {
+      connexion = await this.pool.getConnection();
+      return await connexion.query(
+        "SELECT title, description, mission_date, association_id, status, volunteer_id FROM missions INNER JOIN applications ON missions.id = applications.mission_id WHERE missions.id = ?",
+        [id]
+      );
+    } catch (error) {
+      const message = `Error in getApplicationByMissionId repository: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    } finally {
+      if (connexion) connexion.release();
+    }
+  }
+
   async createMission(title, description, mission_date, association_id) {
     let connexion;
     try {

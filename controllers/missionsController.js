@@ -28,6 +28,20 @@ class MissionsController {
     }
   }
 
+  async getApplicationByMissionId(req, res) {
+    const { id } = req.params;
+    try {
+      const applications = await this.missionsService.getApplicationByMissionId(
+        id
+      );
+      res.status(200).json({ applications });
+    } catch (error) {
+      const message = `Error in getApplicationByMissionId controller: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    }
+  }
+
   async createMission(req, res) {
     const { title, description, mission_date, association_id } = req.body;
 
