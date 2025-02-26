@@ -16,6 +16,18 @@ class MissionsController {
     }
   }
 
+  async getMissionById(req, res) {
+    const { id } = req.params;
+    try {
+      const missionById = await this.missionsService.getMissionById(id);
+      res.status(200).json({ missionById });
+    } catch (error) {
+      const message = `Error un getMissionById controller: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    }
+  }
+
   async createMission(req, res) {
     const { title, description, mission_date, association_id } = req.body;
 
@@ -26,7 +38,7 @@ class MissionsController {
         mission_date,
         association_id
       );
-      res.status(400).json(newMission);
+      res.status(200).json(newMission);
     } catch (error) {
       const message = `Error in createMission controller: ${error.message}`;
       console.error(message);
@@ -34,10 +46,10 @@ class MissionsController {
     }
   }
 
-  async deleteMission(req, res) {
+  async deleteMissionById(req, res) {
     const { id } = req.params;
     try {
-      const result = await this.missionsService.deleteMission(id);
+      const result = await this.missionsService.deleteMissionById(id);
       res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ error: error.message });

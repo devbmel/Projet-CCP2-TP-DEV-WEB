@@ -11,7 +11,17 @@ class MissionsService {
     } catch (error) {
       const message = `Error in getMissions service: ${error.message}`;
       console.error(message);
-      throw new Error({ error: error.message });
+      throw new Error(message);
+    }
+  }
+
+  async getMissionById(id) {
+    try {
+      return await this.missionsRepository.getMissionById(id);
+    } catch (error) {
+      const message = `Error in getMissionById service: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
     }
   }
 
@@ -26,19 +36,19 @@ class MissionsService {
     } catch (error) {
       const message = `Error in createMission service: ${error.message}`;
       console.error(message);
-      throw new Error({ error: error.message });
+      throw new Error(message);
     }
   }
 
-  async deleteMission(id) {
+  async deleteMissionById(id) {
     try {
-      const deleteMission = await this.missionsRepository.deleteMission(id);
+      const deleteMission = await this.missionsRepository.deleteMissionById(id);
       if (!deleteMission) {
         throw new Error("Utilisteur non trouvé");
       }
       return "Utilisateur supprimé";
     } catch (error) {
-      const message = `Error in deleteMission: ${error.message}`;
+      const message = `Error in deleteMissionById: ${error.message}`;
       console.error(message);
       throw new Error(message);
     }
