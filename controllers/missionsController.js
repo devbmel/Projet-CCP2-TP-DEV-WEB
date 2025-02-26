@@ -58,11 +58,9 @@ class MissionsController {
         mission_date
       );
       if (missionUpdate) {
-        return res
-          .status(200)
-          .json({ message: "Mission modifié avec succés!" });
+        return res.status(200).json({ message: "Mission updated!" });
       } else {
-        return res.status(404).json({ error: "Mission non trouvé" });
+        return res.status(404).json({ error: "Mission not found" });
       }
     } catch (error) {
       const message = `Error in updateMissionById controller: ${error.message}`;

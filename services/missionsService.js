@@ -49,9 +49,9 @@ class MissionsService {
         mission_date
       );
       if (updateMission.length === 0) {
-        throw new Error("Mission non trouvé");
+        throw new Error("Mission not found");
       }
-      return "Mission modifié";
+      return "Mission updated";
     } catch (error) {
       const message = `Error in updateMissionById service: ${error.message}`;
       console.error(message);
@@ -63,9 +63,9 @@ class MissionsService {
     try {
       const deleteMission = await this.missionsRepository.deleteMissionById(id);
       if (!deleteMission) {
-        throw new Error("Utilisteur non trouvé");
+        throw new Error("Mission non trouvé");
       }
-      return "Utilisateur supprimé";
+      return "Mission supprimé";
     } catch (error) {
       const message = `Error in deleteMissionById service: ${error.message}`;
       console.error(message);
