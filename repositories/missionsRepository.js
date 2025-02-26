@@ -65,6 +65,24 @@ class MissionsRepository {
     }
   }
 
+  async updateMissionById(id, title, description, mission_date) {
+    let connexion;
+    try {
+      connexion = await this.pool.getConnection();
+      await connexion.query(
+        "UPDATE missions SET title = ?, description = ?, mission_date= ? WHERE id = ?",
+        [title, description, mission_date, id]
+      );
+      return await this.getMissionById(id);
+    } catch (error) {
+      const message = `Error in updateMissionById repository: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    } finally {
+      if (connexion) connexion.release();
+    }
+  }
+
   async deleteMissionById(id) {
     let connexion;
     try {

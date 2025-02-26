@@ -40,6 +40,25 @@ class MissionsService {
     }
   }
 
+  async updateMissionById(id, title, description, mission_date) {
+    try {
+      const updateMission = await this.missionsRepository.updateMissionById(
+        id,
+        title,
+        description,
+        mission_date
+      );
+      if (updateMission.length === 0) {
+        throw new Error("Mission non trouvé");
+      }
+      return "Mission modifié";
+    } catch (error) {
+      const message = `Error in updateMissionById service: ${error.message}`;
+      console.error(message);
+      throw new Error(message);
+    }
+  }
+
   async deleteMissionById(id) {
     try {
       const deleteMission = await this.missionsRepository.deleteMissionById(id);
@@ -48,7 +67,7 @@ class MissionsService {
       }
       return "Utilisateur supprimé";
     } catch (error) {
-      const message = `Error in deleteMissionById: ${error.message}`;
+      const message = `Error in deleteMissionById service: ${error.message}`;
       console.error(message);
       throw new Error(message);
     }
