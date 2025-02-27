@@ -27,7 +27,12 @@ class MissionsService {
 
   async getApplicationByMissionId(id) {
     try {
-      return await this.missionsRepository.getApplicationByMissionId(id);
+      const applicationByMission =
+        await this.missionsRepository.getApplicationByMissionId(id);
+      if (applicationByMission.length === 0) {
+        throw new Error("Applications not found");
+      }
+      return applicationByMission;
     } catch (error) {
       const message = `Error in getApplicationByMissionId service: ${error.message}`;
       console.error(message);

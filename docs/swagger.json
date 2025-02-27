@@ -1,0 +1,306 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Projet CCP2",
+    "version": "1.0.0",
+    "description": "Gestion des missions et des candidatures"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Serveur local"
+    }
+  ],
+  "paths": {
+    "/missions": {
+      "get": {
+        "summary": "Retrieve all missions",
+        "responses": {
+          "200": {
+            "description": "List of missions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "title": {
+                        "type": "string",
+                        "example": "Food Distribution"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Help distribute food to homeless people in the city center."
+                      },
+                      "mission_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-03-10"
+                      },
+                      "association_id": { "type": "integer", "example": 1 }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new mission",
+        "description": "Add a new mission in database",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string", "example": "Food distribution" },
+                  "description": {
+                    "type": "string",
+                    "example": "Help distribute food to homeless people in the city center."
+                  },
+                  "mission_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-03-10"
+                  },
+                  "association_id": { "type": "integer", "example": 1 }
+                },
+                "required": [
+                  "title",
+                  "description",
+                  "mission_date",
+                  "association_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Mission created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 6 },
+                    "title": {
+                      "type": "string",
+                      "example": "Food Distribution"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Food Distribution"
+                    },
+                    "mission_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2025-03-10"
+                    },
+                    "association_id": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/missions/{id}": {
+      "get": {
+        "summary": "Retrieve a single mission by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mission details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "title": {
+                      "type": "string",
+                      "example": "Food Distribution"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Help distribute food to homeless people in the city center."
+                    },
+                    "mission_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2025-03-10"
+                    },
+                    "association_id": { "type": "integer", "example": 1 }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mission not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing mission",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Updated Food Distribution"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Updated description of the mission"
+                  },
+                  "mission_date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-05-15"
+                  }
+                },
+                "required": ["title", "description", "mission_date"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mission update with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "title": {
+                      "type": "string",
+                      "example": "Food Distribution"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Help distribute food to homeless people in the city center."
+                    },
+                    "mission_date": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2025-03-10"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mission not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a mission by ID",
+        "description": "Remove an existing mission from the database",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mission deleted with success"
+          }
+        }
+      }
+    },
+    "/missions/{mission_id}/applications": {
+      "get": {
+        "summary": "Retrieve all applications for a specific mission",
+        "parameters": [
+          {
+            "name": "mission_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Applications details for a specific mission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "title": {
+                        "type": "string",
+                        "example": "Food Distribution"
+                      },
+                      "description": {
+                        "type": "string",
+                        "example": "Help distribute food to homeless people in the city center."
+                      },
+                      "mission_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2025-03-10"
+                      },
+                      "association_id": { "type": "integer", "example": 1 },
+                      "status": {
+                        "type": "string",
+                        "enum": ["pending", "accepted", "rejected"],
+                        "example": "accepted"
+                      },
+                      "volunteer_id": { "type": "integer", "example": 4 }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Application not found"
+          }
+        }
+      }
+    }
+  }
+}
