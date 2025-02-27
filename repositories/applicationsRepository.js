@@ -1,4 +1,3 @@
-import express from "express";
 import mariadb from "mariadb";
 
 class ApplicationsRepository {

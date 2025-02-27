@@ -301,6 +301,91 @@
           }
         }
       }
+    },
+    "/users": {
+      "get": {
+        "summary": "Retrieve all users",
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "name": {
+                        "type": "string",
+                        "example": "Solidarity Aid"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "contact@solidarityaid.org"
+                      },
+                      "password": {
+                        "type": "string",
+
+                        "example": "hashedpassword1"
+                      },
+                      "user_role": {
+                        "type": "string",
+                        "example": "association"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Retrieve a single user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 1 },
+                    "name": {
+                      "type": "string",
+                      "example": "Solidarity Aid"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "contact@solidarityaid.org"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "hashedpassword1"
+                    },
+                    "user_role": { "type": "string", "example": "association" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mission not found"
+          }
+        }
+      }
     }
   }
 }
