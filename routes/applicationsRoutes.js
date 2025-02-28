@@ -1,5 +1,6 @@
 import express from "express";
 import ApplicationsController from "../controllers/applicationsController.js";
+import authenticateToken from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 const applicationsController = new ApplicationsController();
