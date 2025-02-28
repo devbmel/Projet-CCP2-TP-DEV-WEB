@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const SECRET_KEY = process.env.JWT_SECRET;
 
-function authenticateToken(req, res, next) {
+export function authenticateToken(req, res, next) {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Access denied" });
 
@@ -14,4 +14,17 @@ function authenticateToken(req, res, next) {
   });
 }
 
-export default authenticateToken;
+export function checkRoles(requiredRole) {
+  return (req, res, next) => {
+    console.log(req.user);
+    if (!req.user) {
+      return res.status(401).json({
+        message: "You must be authenticated to access this resource.",
+      });
+    }
+    if (req.user.role !== requiredRole) {
+      return res.status(403).json({ message: `Access denied.` });
+    }
+    next();
+  };
+}
