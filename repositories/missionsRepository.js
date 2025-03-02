@@ -104,8 +104,7 @@ class MissionsRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      await connexion.query("DELETE FROM missions WHERE id = ?", [id]);
-      return "Utilisateur supprimé avec succés";
+      return await connexion.query("DELETE FROM missions WHERE id = ?", [id]);
     } catch (error) {
       const message = `Error in deleteMissionById: ${error.message}`;
       console.error(message);

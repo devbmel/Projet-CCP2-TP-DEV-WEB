@@ -12,20 +12,6 @@ class ApplicationsRepository {
     });
   }
 
-  async getApplications() {
-    let connexion;
-    try {
-      connexion = await this.pool.getConnection();
-      return await connexion.query("SELECT * FROM applications");
-    } catch (error) {
-      const message = `Error in getApplications repository: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    } finally {
-      if (connexion) connexion.release();
-    }
-  }
-
   async getApplicationsById(id) {
     let connexion;
     try {
@@ -83,8 +69,9 @@ class ApplicationsRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      await connexion.query("DELETE FROM applications WHERE id = ?", [id]);
-      return "Utilisateur supprimé avec succés";
+      return await connexion.query("DELETE FROM applications WHERE id = ?", [
+        id,
+      ]);
     } catch (error) {
       const message = `Error in deleteApplicationById! ${error.message}`;
       console.error(message);

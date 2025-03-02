@@ -7,22 +7,26 @@ class AuthController {
 
   async register(req, res) {
     const { name, email, password, user_role } = req.body;
+    if (!name || !email || !password || !user_role) {
+      return res.status(400).json({ error: "missing required field" });
+    }
     try {
       await this.authService.register(name, email, password, user_role);
       res.status(201).json("User created with success");
     } catch (error) {
-      const message = `Error in createUsercontroller: ${error.message}`;
+      const message = `Error in authcontroller: ${error.message}`;
       console.error(message);
-      res.status(400).json({ error: error.message });
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
   async login(req, res) {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: "Password and Email required" });
+    }
     try {
-      const { email, password } = req.body;
-      console.log(email, password);
       const { token, user } = await this.authService.login(email, password);
-      console.log(token, user);
 
       res.cookie("token", token, {
         httpOnly: true,
@@ -37,7 +41,9 @@ class AuthController {
       };
       res.status(200).json({ message: "User connected", userSend });
     } catch (error) {
-      res.status(401).json({ message: error.message });
+      const message = `Error in authcontroller: ${error.message}`;
+      console.error(message);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 }

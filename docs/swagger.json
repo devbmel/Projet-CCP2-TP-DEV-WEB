@@ -12,9 +12,190 @@
     }
   ],
   "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register a new user",
+        "tags": ["Authentification"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string", "example": "Solidarity Aid2" },
+                  "email": {
+                    "type": "string",
+                    "example": "contact@solidarityaid2.org"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "ashedpassword8"
+                  },
+                  "user_role": { "type": "string", "example": "association" }
+                },
+                "required": ["name", "email", "password", "user_role"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created with success"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login and token recovery",
+        "tags": ["Authentification"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "contact@solidarityaid2.org"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "ashedpassword8"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User connected",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string", "example": "Solidarity Aid2" },
+                    "email": {
+                      "type": "string",
+                      "example": "contact@solidarityaid2.org"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "association"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error in login service"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Retrieve all users",
+        "tags": ["Users"],
+
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer", "example": 1 },
+                      "name": {
+                        "type": "string",
+                        "example": "Solidarity Aid"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "contact@solidarityaid.org"
+                      },
+                      "password": {
+                        "type": "string",
+
+                        "example": "hashedpassword1"
+                      },
+                      "user_role": {
+                        "type": "string",
+                        "example": "association"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Retrieve a single user by ID",
+        "tags": ["Users"],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer", "example": 2 },
+                    "name": {
+                      "type": "string",
+                      "example": "Green Planet"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "info@greenplanet.org"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": "hashedpassword2"
+                    },
+                    "user_role": { "type": "string", "example": "association" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mission not found"
+          }
+        }
+      }
+    },
     "/missions": {
       "get": {
         "summary": "Retrieve all missions",
+        "tags": ["Missions"],
+
         "responses": {
           "200": {
             "description": "List of missions",
@@ -50,6 +231,8 @@
       },
       "post": {
         "summary": "Create a new mission",
+        "tags": ["Missions"],
+
         "description": "Add a new mission in database",
         "requestBody": {
           "required": true,
@@ -82,34 +265,10 @@
         },
         "responses": {
           "201": {
-            "description": "Mission created with success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": { "type": "integer", "example": 6 },
-                    "title": {
-                      "type": "string",
-                      "example": "Food Distribution"
-                    },
-                    "description": {
-                      "type": "string",
-                      "example": "Food Distribution"
-                    },
-                    "mission_date": {
-                      "type": "string",
-                      "format": "date",
-                      "example": "2025-03-10"
-                    },
-                    "association_id": { "type": "integer", "example": 1 }
-                  }
-                }
-              }
-            }
+            "description": "Mission created with success"
           },
           "400": {
-            "description": "Bad Request"
+            "description": ""
           }
         }
       }
@@ -117,6 +276,8 @@
     "/missions/{id}": {
       "get": {
         "summary": "Retrieve a single mission by ID",
+        "tags": ["Missions"],
+
         "parameters": [
           {
             "name": "id",
@@ -153,14 +314,13 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "Mission not found"
           }
         }
       },
       "put": {
         "summary": "Update an existing mission",
+        "tags": ["Missions"],
+
         "parameters": [
           {
             "name": "id",
@@ -225,11 +385,16 @@
           },
           "404": {
             "description": "Mission not found"
+          },
+          "500": {
+            "description": ""
           }
         }
       },
       "delete": {
         "summary": "Delete a mission by ID",
+        "tags": ["Missions"],
+
         "description": "Remove an existing mission from the database",
         "parameters": [
           {
@@ -243,6 +408,9 @@
         "responses": {
           "200": {
             "description": "Mission deleted with success"
+          },
+          "500": {
+            "description": ""
           }
         }
       }
@@ -250,13 +418,15 @@
     "/missions/{mission_id}/applications": {
       "get": {
         "summary": "Retrieve all applications for a specific mission",
+        "tags": ["Missions"],
+
         "parameters": [
           {
             "name": "mission_id",
             "in": "path",
             "required": true,
             "schema": { "type": "integer" },
-            "example": 1
+            "example": 2
           }
         ],
         "responses": {
@@ -269,21 +439,21 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": { "type": "integer", "example": 1 },
+                      "id": { "type": "integer", "example": 2 },
                       "title": {
                         "type": "string",
-                        "example": "Food Distribution"
+                        "example": "Tree Planting"
                       },
                       "description": {
                         "type": "string",
-                        "example": "Help distribute food to homeless people in the city center."
+                        "example": "Plant trees to support reforestation efforts."
                       },
                       "mission_date": {
                         "type": "string",
                         "format": "date",
-                        "example": "2025-03-10"
+                        "example": "2025-03-06"
                       },
-                      "association_id": { "type": "integer", "example": 1 },
+                      "association_id": { "type": "integer", "example": 2 },
                       "status": {
                         "type": "string",
                         "enum": ["pending", "accepted", "rejected"],
@@ -302,12 +472,14 @@
         }
       }
     },
-    "/users": {
+    "/applications": {
       "get": {
-        "summary": "Retrieve all users",
+        "summary": "Retrieve all candidatures",
+        "tags": ["Applications"],
+
         "responses": {
           "200": {
-            "description": "List of users",
+            "description": "List of candidatures",
             "content": {
               "application/json": {
                 "schema": {
@@ -316,23 +488,9 @@
                     "type": "object",
                     "properties": {
                       "id": { "type": "integer", "example": 1 },
-                      "name": {
-                        "type": "string",
-                        "example": "Solidarity Aid"
-                      },
-                      "email": {
-                        "type": "string",
-                        "example": "contact@solidarityaid.org"
-                      },
-                      "password": {
-                        "type": "string",
-
-                        "example": "hashedpassword1"
-                      },
-                      "user_role": {
-                        "type": "string",
-                        "example": "association"
-                      }
+                      "status": { "type": "string", "example": "pending" },
+                      "mission_id": { "type": "integer", "example": 1 },
+                      "volunteer_id": { "type": "integer", "example": 3 }
                     }
                   }
                 }
@@ -342,8 +500,9 @@
         }
       },
       "post": {
-        "summary": "Create a new user",
-        "description": "Add a new user in database",
+        "summary": "Apply for a mission",
+        "tags": ["Applications"],
+
         "requestBody": {
           "required": true,
           "content": {
@@ -351,54 +510,43 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "name": { "type": "string", "example": "Solidarity Aid2" },
-                  "email": {
-                    "type": "string",
-                    "example": "contact@solidarityaid2.org"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "hashedpassword8"
-                  },
-                  "user_role": { "type": "string", "example": "association" }
+                  "mission_id": { "type": "integer", "example": 3 },
+                  "volunteer_id": {
+                    "type": "integer",
+                    "example": 5
+                  }
                 },
-                "required": ["name", "email", "password", "user_role"]
+                "required": ["mission_id", "volunteer_id"]
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "User created with success",
+          "200": {
+            "description": "Mission created with success",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": { "type": "integer", "example": 6 },
-                    "name": {
-                      "type": "string",
-                      "example": "Solidarity Aid2"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "contact@solidarityaid2.org"
-                    },
-                    "user_role": { "type": "string", "example": "association" }
+                    "mission_id": { "type": "integer", "example": 3 },
+                    "volunteer_id": { "type": "integer", "example": 5 }
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Bad Request"
+          "500": {
+            "description": ""
           }
         }
       }
     },
-    "/users/{id}": {
+    "/applications/{id}": {
       "get": {
-        "summary": "Retrieve a single user by ID",
+        "summary": "Retrieve a single application by ID",
+        "tags": ["Applications"],
+
         "parameters": [
           {
             "name": "id",
@@ -410,33 +558,95 @@
         ],
         "responses": {
           "200": {
-            "description": "User details",
+            "description": "Application details",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
                     "id": { "type": "integer", "example": 1 },
-                    "name": {
+                    "status": {
                       "type": "string",
-                      "example": "Solidarity Aid"
+                      "example": "pending"
                     },
-                    "email": {
-                      "type": "string",
-                      "example": "contact@solidarityaid.org"
+                    "mission_id": {
+                      "type": "integer",
+                      "example": 1
                     },
-                    "password": {
-                      "type": "string",
-                      "example": "hashedpassword1"
-                    },
-                    "user_role": { "type": "string", "example": "association" }
+                    "volunteer_id": {
+                      "type": "interger",
+                      "example": "3"
+                    }
                   }
                 }
               }
             }
           },
-          "404": {
-            "description": "Mission not found"
+          "401": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an application",
+        "tags": ["Applications"],
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "example": "accepted"
+                  }
+                },
+                "required": ["status"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status of this application"
+          },
+
+          "401": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a application by ID",
+        "tags": ["Applications"],
+
+        "description": "Remove an existing application from the database",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Application deleted with success"
+          },
+          "401": {
+            "description": "Access denied"
           }
         }
       }

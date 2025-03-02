@@ -5,78 +5,95 @@ class ApplicationsController {
     this.applicationService = new ApplicationsService();
   }
 
-  async getApplications(req, res) {
-    try {
-      const applications = await this.applicationService.getApplications();
-      res.status(200).json({ applications });
-    } catch (error) {
-      const message = `Error in getApplications controller: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
-  }
+  // async getApplications(req, res) {
+  //   try {
+  //     const applications = await this.applicationService.getApplications();
+  //     res.status(200).json({ applications });
+  //   } catch (error) {
+  //     const message = `Error in getApplications controller: ${error.message}`;
+  //     console.error(message);
+  //     res.status(500).json({ error: "Internal server error" });
+  //   }
+  // }
 
   async getApplicationsById(req, res) {
     const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "id required" });
+    }
     try {
-      const applicationsById =
-        await this.applicationService.getApplicationsById(id);
-      res.status(200).json({ applicationsById });
+      const applicationById = await this.applicationService.getApplicationsById(
+        id
+      );
+      if (!applicationById || applicationById.length === 0) {
+        return res.status(404).json({ error: "Application not found" });
+      }
+      res.status(200).json({ applicationById });
     } catch (error) {
       const message = `Error in getApplicationsById controller : ${error.message}`;
       console.error(message);
-      throw new Error(message);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
   async createApplication(req, res) {
     const { mission_id, volunteer_id } = req.body;
+    if (!mission_id || !volunteer_id) {
+      return res
+        .status(400)
+        .json({ error: "volunteer_id and mission_id required" });
+    }
     try {
       const newApplication = await this.applicationService.createApplication(
         mission_id,
         volunteer_id
       );
-      res.status(200).json(newApplication);
+      res.status(201).json(newApplication);
     } catch (error) {
       const message = `Error in createApplication controller: ${error.message}`;
       console.error(message);
-      res.status(500).json({ error: error.message });
-      throw new Error(message);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 
   async updateApplicationById(req, res) {
     const { id } = req.params;
     const { status } = req.body;
-
+    if (!id || !status) {
+      return res.status(400).json({ error: "id and status required" });
+    }
     try {
-      const applicationUpdate =
+      const applicationUpdated =
         await this.applicationService.updateApplicationById(status, id);
-      if (applicationUpdate) {
-        return res
-          .status(200)
-          .json({ message: "Status of this application updated" });
-      } else {
-        return res.status(404).json({ error: "application not found" });
+      if (!applicationUpdated || applicationUpdated.length === 0) {
+        return res.status(404).json({ error: "Application not found" });
       }
+
+      res.status(200).json({ message: "Status of this application updated" });
     } catch (error) {
       const message = `Error in updateApplicationsById controller: ${error.message}`;
       console.error(message);
-      res.status(500).json(message);
-      throw new Error(message);
+      res.status(500).json({ error: "Internal server error " });
     }
   }
 
   async deleteApplicationById(req, res) {
     const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "id required" });
+    }
+
     try {
-      const result = await this.applicationService.deleteApplicationById(id);
-      res.status(200).json(result);
+      const applicationDeleted =
+        await this.applicationService.deleteApplicationById(id);
+      if (!applicationDeleted || applicationDeleted.affectedRows === 0) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+      res.status(200).json({ message: "Application deleted with success" });
     } catch (error) {
       const message = `Error in deleteApplicationById controller: ${error.message}`;
       console.error(message);
-      res.status(500).json({ error: error.message });
-      throw new Error(error.message);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 }

@@ -6,86 +6,37 @@ class MissionsService {
   }
 
   async getMissions() {
-    try {
-      return await this.missionsRepository.getMissions();
-    } catch (error) {
-      const message = `Error in getMissions service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.getMissions();
   }
 
   async getMissionById(id) {
-    try {
-      return await this.missionsRepository.getMissionById(id);
-    } catch (error) {
-      const message = `Error in getMissionById service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.getMissionById(id);
   }
 
   async getApplicationByMissionId(id) {
-    try {
-      const applicationByMission =
-        await this.missionsRepository.getApplicationByMissionId(id);
-      if (applicationByMission.length === 0) {
-        throw new Error("Applications not found");
-      }
-      return applicationByMission;
-    } catch (error) {
-      const message = `Error in getApplicationByMissionId service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.getApplicationByMissionId(id);
   }
 
   async createMission(title, description, mission_date, association_id) {
-    try {
-      return await this.missionsRepository.createMission(
-        title,
-        description,
-        mission_date,
-        association_id
-      );
-    } catch (error) {
-      const message = `Error in createMission service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.createMission(
+      title,
+      description,
+      mission_date,
+      association_id
+    );
   }
 
   async updateMissionById(id, title, description, mission_date) {
-    try {
-      const updateMission = await this.missionsRepository.updateMissionById(
-        id,
-        title,
-        description,
-        mission_date
-      );
-      if (updateMission.length === 0) {
-        throw new Error("Mission not found");
-      }
-      return "Mission updated";
-    } catch (error) {
-      const message = `Error in updateMissionById service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.updateMissionById(
+      id,
+      title,
+      description,
+      mission_date
+    );
   }
 
   async deleteMissionById(id) {
-    try {
-      const deleteMission = await this.missionsRepository.deleteMissionById(id);
-      if (!deleteMission) {
-        throw new Error("Mission non trouvé");
-      }
-      return "Mission supprimé";
-    } catch (error) {
-      const message = `Error in deleteMissionById service: ${error.message}`;
-      console.error(message);
-      throw new Error(message);
-    }
+    return await this.missionsRepository.deleteMissionById(id);
   }
 }
 
