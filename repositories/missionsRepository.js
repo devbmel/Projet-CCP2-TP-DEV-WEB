@@ -47,7 +47,7 @@ class MissionsRepository {
     try {
       connexion = await this.pool.getConnection();
       return await connexion.query(
-        "SELECT title, description, mission_date, association_id, status, volunteer_id FROM missions INNER JOIN applications ON missions.id = applications.mission_id WHERE missions.id = ?",
+        "SELECT title, description, mission_date, association_id, status, volunteer_id FROM missions INNER JOIN applications ON missions.id = applications.mission_id WHERE missions.id = ? and status = 'pending'",
         [id]
       );
     } catch (error) {

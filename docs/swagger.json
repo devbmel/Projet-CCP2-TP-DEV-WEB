@@ -456,7 +456,7 @@
     },
     "/missions/{mission_id}/applications": {
       "get": {
-        "summary": "Retrieve all applications for a specific mission",
+        "summary": "Retrieve all pending applications for a specific mission",
         "tags": ["Missions"],
 
         "parameters": [
