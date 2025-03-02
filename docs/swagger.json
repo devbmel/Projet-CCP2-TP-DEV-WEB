@@ -44,7 +44,10 @@
             "description": "User created with success"
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Misisng required field"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -96,8 +99,11 @@
               }
             }
           },
-          "401": {
-            "description": "Error in login service"
+          "400": {
+            "description": "Password and email required"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -134,6 +140,9 @@
                       "user_role": {
                         "type": "string",
                         "example": "association"
+                      },
+                      "500": {
+                        "description": "Internal server error"
                       }
                     }
                   }
@@ -185,8 +194,14 @@
               }
             }
           },
+          "400": {
+            "description": "id required"
+          },
           "404": {
-            "description": "Mission not found"
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -226,6 +241,9 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -268,7 +286,10 @@
             "description": "Mission created with success"
           },
           "400": {
-            "description": ""
+            "description": "Missing required fields"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -314,6 +335,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "id required"
+          },
+          "404": {
+            "description": "Mission not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -383,11 +413,14 @@
               }
             }
           },
+          "400": {
+            "description": "Missing required fields"
+          },
           "404": {
             "description": "Mission not found"
           },
           "500": {
-            "description": ""
+            "description": "Internal server error"
           }
         }
       },
@@ -409,8 +442,14 @@
           "200": {
             "description": "Mission deleted with success"
           },
+          "400": {
+            "description": "id required"
+          },
+          "404": {
+            "description": "Misison not found"
+          },
           "500": {
-            "description": ""
+            "description": "Internal server error"
           }
         }
       }
@@ -466,39 +505,19 @@
               }
             }
           },
+          "400": {
+            "description": "Id required"
+          },
           "404": {
-            "description": "Application not found"
+            "description": "Mission not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
     },
     "/applications": {
-      "get": {
-        "summary": "Retrieve all candidatures",
-        "tags": ["Applications"],
-
-        "responses": {
-          "200": {
-            "description": "List of candidatures",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": { "type": "integer", "example": 1 },
-                      "status": { "type": "string", "example": "pending" },
-                      "mission_id": { "type": "integer", "example": 1 },
-                      "volunteer_id": { "type": "integer", "example": 3 }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "post": {
         "summary": "Apply for a mission",
         "tags": ["Applications"],
@@ -522,8 +541,7 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Mission created with success",
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -536,8 +554,9 @@
               }
             }
           },
+          "400": { "description": "volunteer_id and mission_id required" },
           "500": {
-            "description": ""
+            "description": "Internal server error"
           }
         }
       }
@@ -582,8 +601,14 @@
               }
             }
           },
-          "401": {
-            "description": "Access denied"
+          "400": {
+            "description": "id required"
+          },
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -619,11 +644,17 @@
         },
         "responses": {
           "200": {
-            "description": "Status of this application"
+            "description": "Status of this application updated"
+          },
+          "400": {
+            "description": "id and status required"
           },
 
-          "401": {
-            "description": "Access denied"
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       },
@@ -645,8 +676,14 @@
           "200": {
             "description": "Application deleted with success"
           },
-          "401": {
-            "description": "Access denied"
+          "400": {
+            "description": "id required"
+          },
+          "404": {
+            "description": "Application not found"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }

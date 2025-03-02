@@ -5,17 +5,6 @@ class ApplicationsController {
     this.applicationService = new ApplicationsService();
   }
 
-  // async getApplications(req, res) {
-  //   try {
-  //     const applications = await this.applicationService.getApplications();
-  //     res.status(200).json({ applications });
-  //   } catch (error) {
-  //     const message = `Error in getApplications controller: ${error.message}`;
-  //     console.error(message);
-  //     res.status(500).json({ error: "Internal server error" });
-  //   }
-  // }
-
   async getApplicationsById(req, res) {
     const { id } = req.params;
     if (!id) {

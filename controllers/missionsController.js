@@ -59,7 +59,7 @@ class MissionsController {
   async createMission(req, res) {
     const { title, description, mission_date, association_id } = req.body;
     if (!title || !description || !mission_date || !association_id) {
-      return res.status(400).json({ error: "Missing required fileds" });
+      return res.status(400).json({ error: "Missing required fields" });
     }
 
     try {
