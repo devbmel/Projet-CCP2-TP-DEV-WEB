@@ -1,5 +1,4 @@
 import UsersRepository from "../repositories/usersRepository.js";
-import argon2 from "argon2";
 class UsersService {
   constructor() {
     this.usersRepository = new UsersRepository();
