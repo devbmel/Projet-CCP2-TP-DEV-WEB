@@ -30,7 +30,11 @@ class UsersRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      return await connexion.query("SELECT * FROM users WHERE id = ?", [id]);
+      const userById = await connexion.query(
+        "SELECT * FROM users WHERE id = ?",
+        [id]
+      );
+      return userById[0];
     } catch (error) {
       const message = `Error in getUserById repository: ${error.message}`;
       console.error(message);
@@ -44,11 +48,11 @@ class UsersRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      const result = await connexion.query(
+      const userByemail = await connexion.query(
         "SELECT * FROM users WHERE email= ?",
         [email]
       );
-      return result[0];
+      return userByemail[0];
     } catch (error) {
       const message = `Error in getUserByEmailrepository: ${error.message}`;
       console.error(message);

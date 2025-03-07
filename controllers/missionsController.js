@@ -23,7 +23,7 @@ class MissionsController {
     }
     try {
       const missionById = await this.missionsService.getMissionById(id);
-      if (!missionById || missionById.length === 0) {
+      if (!missionById) {
         return res.status(404).json({ error: "MIssion not found" });
       }
       res.status(200).json({ missionById });
@@ -41,7 +41,7 @@ class MissionsController {
     }
     try {
       const mission = await this.missionsService.getMissionById(id);
-      if (!mission || mission.length === 0) {
+      if (!mission) {
         return res.status(404).json({ error: "mission not found" });
       }
       const applications = await this.missionsService.getApplicationByMissionId(

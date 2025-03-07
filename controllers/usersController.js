@@ -22,7 +22,7 @@ class UsersController {
     }
     try {
       const user = await this.usersService.getUserById(id);
-      if (!user || user.length === 0) {
+      if (!user) {
         return res.status(404).json({ error: "User not found" });
       }
       res.status(200).json({ user });

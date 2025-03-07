@@ -16,9 +16,11 @@ class ApplicationsRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      return await connexion.query("SELECT * FROM applications WHERE id = ?", [
-        id,
-      ]);
+      const applicationById = await connexion.query(
+        "SELECT * FROM applications WHERE id = ?",
+        [id]
+      );
+      return applicationById[0];
     } catch (error) {
       const message = `Error in getApplicationById repository: ${error.message}`;
       console.error(message);

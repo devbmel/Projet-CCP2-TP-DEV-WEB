@@ -32,7 +32,11 @@ class MissionsRepository {
     let connexion;
     try {
       connexion = await this.pool.getConnection();
-      return await connexion.query("SELECT * FROM missions WHERE id = ?", [id]);
+      const getMissionById = await connexion.query(
+        "SELECT * FROM missions WHERE id = ?",
+        [id]
+      );
+      return getMissionById[0];
     } catch (error) {
       const message = `Error in getMissionById repository: ${error.message}`;
       console.error(message);

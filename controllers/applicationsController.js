@@ -14,7 +14,7 @@ class ApplicationsController {
       const applicationById = await this.applicationService.getApplicationsById(
         id
       );
-      if (!applicationById || applicationById.length === 0) {
+      if (!applicationById) {
         return res.status(404).json({ error: "Application not found" });
       }
       res.status(200).json({ applicationById });
